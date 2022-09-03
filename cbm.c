@@ -10,10 +10,16 @@ int main() {
 
     printf("Reading existing links from file %s\n", bmsfile);
     numbms = read_bms(bmsfile, &bms);
+    if (!numbms) {
+        return 1;
+    }
     printf("%lu bms extracted\n", numbms);
 
     printf("Reading bookmarks from file %s\n", newbmsfile);
     numnewbms = get_bms(newbmsfile, &newbms);
+    if (!numnewbms) {
+        return 1;
+    }
     printf("%lu bms extracted\n", numnewbms);
 
     printf("Trimming protocols from new bookmarks\n");

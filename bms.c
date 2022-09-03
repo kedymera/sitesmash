@@ -29,6 +29,12 @@ size_t get_bms(char *filename, struct bm **bms) {
     size_t i = 0, numbms = 0, sz = 32;
     *bms = malloc(sz * sizeof(struct bm));
     FILE *fp = fopen(filename, "r");
+    if (!fp) {
+        fprintf(stderr, "File not found: %s\n", filename);
+        free(*bms);
+        *bms = NULL;
+        return 0;
+    }
     while ((c = fgetc(fp)) != EOF) {
         if (c == pre[i]) {
             ++i;
@@ -112,6 +118,13 @@ size_t read_bms(char *filename, struct bm **bms) {
     *bms = malloc(bmssz * sizeof(struct bm));
     char *tmp = malloc(buffsz * sizeof(char));
     FILE *fp = fopen(filename, "r");
+    if (!fp) {
+        fprintf(stderr, "File not found: %s\n", filename);
+        free(*bms);
+        free(tmp);
+        *bms = NULL;
+        return 0;
+    }
     while ((c = fgetc(fp)) != EOF) {
         if (i >= buffsz) {
             buffsz *= 2;
