@@ -16,7 +16,7 @@ size_t get_bms(char *filename, struct bm **bms);
 /* print an array of bms (probably for debugging) */
 void print_bms(struct bm *bms, size_t numbms);
 
-/* free an allocated array of bms of length numbms */
+/* free an allocated array of bms of length numbms, including all used strings */
 void free_bms(struct bm *bms, size_t numbms);
 
 /* trim the protocols off all bms in bm array
@@ -40,3 +40,8 @@ size_t read_bms(char *filename, struct bm **bms);
 
 /* sorts the bms array given, asciibetically by url */
 void sort_bms(struct bm *bms, size_t numbms);
+
+/* combines two bms arrays into one, allocates and returns combined array
+ * (free the input arrays if you don't want them anymore,
+ * but be careful; the strings are reused, so free with normal free(bms), NOT free_bms(bms)) */
+struct bm *combine_bms(struct bm *bms1, size_t numbms1, struct bm *bms2, size_t numbms2);

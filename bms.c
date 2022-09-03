@@ -1,3 +1,4 @@
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -159,4 +160,22 @@ int compare_bms(const void *bm1, const void *bm2) {
 void sort_bms(struct bm *bms, size_t numbms) {
     qsort(bms, numbms, sizeof(struct bm), compare_bms);
     return;
+}
+
+struct bm *combine_bms(struct bm *bms1, size_t numbms1, struct bm *bms2, size_t numbms2) {
+    size_t numbms = numbms1 + numbms2;
+    struct bm *bms = malloc(numbms * sizeof(struct bm));
+    size_t i1 = 0, i2 = 0;
+
+    while (i1+i2 < numbms) {
+        if (compare_bms(bms1+i1, bms2+i2)) {
+            bms[i1+i2] = bms1[i1];
+            ++i1;
+        } else {
+            bms[i1+i2] = bms2[i2];
+            ++i2;
+        }
+    }
+
+    return bms;
 }
