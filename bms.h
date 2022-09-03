@@ -28,3 +28,7 @@ void trim_protocols(struct bm *bms, size_t numbms);
  * i.e. https://non.sen.se -> non.sen.se
  * assumes all urls have one */
 void trim_protocol(char **s, size_t *len);
+
+/* writes bms array to file in format ("%s¬%d\n", url, count)
+ * overwrites file if already exists (mode "w") */
+void write_bms(struct bm *bms, size_t numbms, char *filename);

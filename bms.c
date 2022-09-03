@@ -93,3 +93,13 @@ void trim_protocol(char **s, size_t *len) {
     *s = realloc(*s, (*len+1) * sizeof(char));
     return;
 }
+
+void write_bms(struct bm *bms, size_t numbms, char *filename) {
+    FILE *fp = fopen(filename, "w");
+    size_t i;
+    for (i = 0; i < numbms; ++i)
+        fprintf(fp, "%s¬%d\n", bms[i].url, bms[i].count);
+
+    fclose(fp);
+    return;
+}

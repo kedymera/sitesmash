@@ -21,6 +21,9 @@ int main() {
         printf("bms[%lu] = {url:%s, count:%d}\n", i, bms[i].url, bms[i].count);
     }
 
+    char *outfile = "out/links";
+    printf("writing %lu bms to file %s\n", numbms, outfile);
+    write_bms(bms, numbms, outfile);
     free_bms(bms, numbms);
     return 0;
 }
