@@ -37,3 +37,6 @@ void write_bms(struct bm *bms, size_t numbms, char *filename);
  * i.e. as written by write_bms
  * returns the number of bms read and allocates to pointer *bms provided */
 size_t read_bms(char *filename, struct bm **bms);
+
+/* sorts the bms array given, asciibetically by url */
+void sort_bms(struct bm *bms, size_t numbms);

@@ -147,3 +147,16 @@ size_t read_bms(char *filename, struct bm **bms) {
     fclose(fp);
     return numbms;
 }
+
+int compare_bms(const void *bm1, const void *bm2) {
+    // struct bm *bm1, struct bm *bm2
+    return strcmp(
+        ((struct bm *) bm1)[0].url,
+        ((struct bm *) bm2)[0].url
+    );
+}
+
+void sort_bms(struct bm *bms, size_t numbms) {
+    qsort(bms, numbms, sizeof(struct bm), compare_bms);
+    return;
+}
