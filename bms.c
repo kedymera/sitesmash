@@ -132,9 +132,7 @@ size_t read_bms(char *filename, struct bm **bms) {
 
                 i = 0;
                 ++numbms;
-                printf("numbms is %lu and bmssz is %lu\n", numbms, bmssz);
                 if (numbms >= bmssz) {
-                    printf("reallocing :)\n");
                     bmssz *= 2;
                     *bms = realloc(*bms, bmssz * sizeof(struct bm));
                 }
