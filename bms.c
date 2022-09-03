@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "bms.h"
 
 size_t extract_url(FILE *fp, char **s) {
@@ -98,8 +99,53 @@ void write_bms(struct bm *bms, size_t numbms, char *filename) {
     FILE *fp = fopen(filename, "w");
     size_t i;
     for (i = 0; i < numbms; ++i)
-        fprintf(fp, "%s¬%d\n", bms[i].url, bms[i].count);
+        fprintf(fp, "%s %d\n", bms[i].url, bms[i].count);
 
     fclose(fp);
     return;
+}
+
+size_t read_bms(char *filename, struct bm **bms) {
+    char c;
+    size_t numbms = 0, bmssz = 32, buffsz = 32, i = 0;
+    *bms = malloc(bmssz * sizeof(struct bm));
+    char *tmp = malloc(buffsz * sizeof(char));
+    FILE *fp = fopen(filename, "r");
+    while ((c = fgetc(fp)) != EOF) {
+        if (i >= buffsz) {
+            buffsz *= 2;
+            tmp = realloc(tmp, buffsz);
+        }
+        switch (c) {
+            case ' ':
+                tmp[i++] = '\0';
+
+                (*bms)[numbms].url = malloc(i * sizeof(char));
+                strncpy((*bms)[numbms].url, tmp, i);
+
+                i = 0;
+                break;
+            case '\n':
+                tmp[i++] = '\0';
+
+                (*bms)[numbms].count = atoi(tmp);
+
+                i = 0;
+                ++numbms;
+                printf("numbms is %lu and bmssz is %lu\n", numbms, bmssz);
+                if (numbms >= bmssz) {
+                    printf("reallocing :)\n");
+                    bmssz *= 2;
+                    *bms = realloc(*bms, bmssz * sizeof(struct bm));
+                }
+                break;
+            default:
+                tmp[i++] = c;
+        }
+    }
+    free(tmp);
+
+
+    fclose(fp);
+    return numbms;
 }

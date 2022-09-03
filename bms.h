@@ -29,6 +29,11 @@ void trim_protocols(struct bm *bms, size_t numbms);
  * assumes all urls have one */
 void trim_protocol(char **s, size_t *len);
 
-/* writes bms array to file in format ("%s¬%d\n", url, count)
+/* writes bms array to file in format ("%s %d\n", url, count)
  * overwrites file if already exists (mode "w") */
 void write_bms(struct bm *bms, size_t numbms, char *filename);
+
+/* reads bms from bm file of format ("%s %d\n", url, count)
+ * i.e. as written by write_bms
+ * returns the number of bms read and allocates to pointer *bms provided */
+size_t read_bms(char *filename, struct bm **bms);
