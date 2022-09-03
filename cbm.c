@@ -30,11 +30,15 @@ int main() {
 
     printf("Combine the two arrays\n");
     struct bm *combinedbms = combine_bms(bms, numbms, newbms, numnewbms);
+    size_t numcombinedbms = numbms + numnewbms;
     free(bms);
     free(newbms);
 
-    size_t numcombinedbms = numbms + numnewbms;
-    print_bms(combinedbms, numcombinedbms);
+    printf("Resolve duplicates\n");
+    numcombinedbms = resolve_duplicate_bms(&combinedbms, numcombinedbms);
+
+    printf("Writing combined array of %lu bms to file %s\n", numcombinedbms, bmsfile);
+    write_bms(combinedbms, numcombinedbms, bmsfile);
     free_bms(combinedbms, numcombinedbms);
 
     return 0;

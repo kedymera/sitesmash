@@ -45,3 +45,8 @@ void sort_bms(struct bm *bms, size_t numbms);
  * (free the input arrays if you don't want them anymore,
  * but be careful; the strings are reused, so free with normal free(bms), NOT free_bms(bms)) */
 struct bm *combine_bms(struct bm *bms1, size_t numbms1, struct bm *bms2, size_t numbms2);
+
+/* resolves duplicate bms in bms array;
+ * if multiple bms have same url, these are condensed into one bm
+ * whose count is {0 if any are 0; or max among them if all non-0} */
+size_t resolve_duplicate_bms(struct bm **bms, size_t numbms);

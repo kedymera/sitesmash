@@ -210,3 +210,25 @@ struct bm *combine_bms(struct bm *bms1, size_t numbms1, struct bm *bms2, size_t 
 
     return bms;
 }
+
+char combine_counts(char count1, char count2) {
+    if (!count1 || !count2) return 0;
+    return count1 > count2 ? count1 : count2;
+}
+
+size_t resolve_duplicate_bms(struct bm **bms, size_t numbms) {
+    if (numbms < 2) return numbms;
+    size_t i = 0, j;
+    // bms is assumed sorted, so can just check each bm against the previous
+    for (j = 1; j < numbms; ++j) {
+        if (compare_bms(*bms+i, *bms+j) == 0) {
+            (*bms)[i].count = combine_counts((*bms)[i].count, (*bms)[j].count);
+            free((*bms)[j].url);
+        } else {
+            ++i;
+            (*bms)[i] = (*bms)[j];
+        }
+    }
+    *bms = realloc(*bms, ++i * sizeof(struct bm));
+    return i;
+}
