@@ -1,11 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-struct bm {
-    char *url;
-    size_t urllen;
-    char count;
-};
+#include "bms.h"
 
 size_t extract_url(FILE *fp, char **s) {
     char c;
@@ -71,4 +66,30 @@ void free_bms(struct bm *bms, size_t numbms) {
         free(bms[i].url);
     }
     free(bms);
+}
+
+void trim_protocols(struct bm *bms, size_t numbms) {
+    size_t i;
+    for (i = 0; i < numbms; ++i)
+        trim_protocol(&bms[i].url, &bms[i].urllen);
+    return;
+}
+
+void trim_protocol(char **s, size_t *len) {
+    size_t i, j = 0;
+    for (i = 0; i < *len; ++i) {
+        if ((*s)[i] == "://"[j]) {
+            ++j;
+            if (j == 3) {
+                break;
+            }
+        }
+    }
+    *len -= i+1; 
+    for (j = 0; j < *len; ++j) {
+        (*s)[j] = (*s)[j+i+1];
+    }
+    (*s)[j] = '\0';
+    *s = realloc(*s, (*len+1) * sizeof(char));
+    return;
 }
