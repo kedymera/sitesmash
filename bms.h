@@ -11,7 +11,7 @@ struct bm {
 size_t extract_url(FILE *fp, char **s);
 
 /* parses file `filename' for all links and creates an array of bms therefrom (allocates) */
-size_t get_bms(char *filename, struct bm **bms);
+size_t get_bms(const char *filename, struct bm **bms);
 
 /* print an array of bms (probably for debugging) */
 void print_bms(struct bm *bms, size_t numbms);
@@ -31,12 +31,12 @@ void trim_protocol(char **s, size_t *len);
 
 /* writes bms array to file in format ("%s %d\n", url, count)
  * overwrites file if already exists (mode "w") */
-void write_bms(struct bm *bms, size_t numbms, char *filename);
+void write_bms(struct bm *bms, size_t numbms, const char *filename);
 
 /* reads bms from bm file of format ("%s %d\n", url, count)
  * i.e. as written by write_bms
  * returns the number of bms read and allocates to pointer *bms provided */
-size_t read_bms(char *filename, struct bm **bms);
+size_t read_bms(const char *filename, struct bm **bms);
 
 /* sorts the bms array given, asciibetically by url */
 void sort_bms(struct bm *bms, size_t numbms);

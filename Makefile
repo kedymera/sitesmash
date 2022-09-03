@@ -3,9 +3,12 @@ CC=gcc
 FLAGS=-Wall -Wextra -g -fsanitize=address
 LINKFLAGS=
 
-all: build/bms.o convert test
+all: build/bms.o convert consume test
 
-cbm: build/convert.o
+convert: build/convert.o
+	$(CC) $(FLAGS) -o build/$@ $< build/bms.o $(LINKFLAGS)
+
+consume: build/consume.o
 	$(CC) $(FLAGS) -o build/$@ $< build/bms.o $(LINKFLAGS)
 
 test: build/test.o

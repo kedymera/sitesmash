@@ -22,7 +22,7 @@ size_t extract_url(FILE *fp, char **s) {
     return len;
 }
 
-size_t get_bms(char *filename, struct bm **bms) {
+size_t get_bms(const char *filename, struct bm **bms) {
     char c;
     const char *pre = "<A HREF=\"";
     const size_t prelen = 9;
@@ -102,7 +102,7 @@ void trim_protocol(char **s, size_t *len) {
     return;
 }
 
-void write_bms(struct bm *bms, size_t numbms, char *filename) {
+void write_bms(struct bm *bms, size_t numbms, const char *filename) {
     FILE *fp = fopen(filename, "w");
     size_t i;
     for (i = 0; i < numbms; ++i)
@@ -112,7 +112,7 @@ void write_bms(struct bm *bms, size_t numbms, char *filename) {
     return;
 }
 
-size_t read_bms(char *filename, struct bm **bms) {
+size_t read_bms(const char *filename, struct bm **bms) {
     char c;
     size_t numbms = 0, bmssz = 32, buffsz = 32, i = 0;
     *bms = malloc(bmssz * sizeof(struct bm));
