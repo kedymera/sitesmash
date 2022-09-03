@@ -178,15 +178,33 @@ void sort_bms(struct bm *bms, size_t numbms) {
 struct bm *combine_bms(struct bm *bms1, size_t numbms1, struct bm *bms2, size_t numbms2) {
     size_t numbms = numbms1 + numbms2;
     struct bm *bms = malloc(numbms * sizeof(struct bm));
+    if (numbms1 == 0) {
+        memcpy(bms, bms2, numbms2 * sizeof(struct bm));
+        return bms;
+    } else if (numbms2 == 0) {
+        memcpy(bms, bms1, numbms1 * sizeof(struct bm));
+        return bms;
+    }
+
     size_t i1 = 0, i2 = 0;
 
     while (i1+i2 < numbms) {
-        if (compare_bms(bms1+i1, bms2+i2)) {
+        if (compare_bms(bms1+i1, bms2+i2) < 0) {
             bms[i1+i2] = bms1[i1];
             ++i1;
+            if (i1 >= numbms1) {
+                // depleted bms1, so just stick on the rest of bms2
+                for (; i1+i2 < numbms; ++i2)
+                    bms[i1+i2] = bms2[i2];
+            }
         } else {
             bms[i1+i2] = bms2[i2];
             ++i2;
+            if (i2 >= numbms2) {
+                // depleted bms2, so just stick on the rest of bms1
+                for (; i1+i2 < numbms; ++i1)
+                    bms[i1+i2] = bms1[i1];
+            }
         }
     }
 
