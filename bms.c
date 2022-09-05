@@ -55,7 +55,7 @@ size_t get_bms(const char *filename, struct bm **bms) {
             i = 0;
         }
     }
-
+    *bms = realloc(*bms, numbms * sizeof(struct bm));
 
     fclose(fp);
     return numbms;
@@ -156,7 +156,7 @@ size_t read_bms(const char *filename, struct bm **bms) {
         }
     }
     free(tmp);
-
+    *bms = realloc(*bms, numbms * sizeof(struct bm));
 
     fclose(fp);
     return numbms;
