@@ -3,6 +3,9 @@
 #include <string.h>
 #include "bms.h"
 
+#define LINKSINRANDOMORDER 1
+//#undef LINKSINRANDOMORDER
+
 int main() {
     // TODO: put browser and profile into some config file
     const char *bmsfile = "out/links",
@@ -23,6 +26,9 @@ int main() {
         if (strcmp(query, "q") == 0) break;
 
         for (size_t i = 0; i < numbms; ++i) {
+            #ifdef LINKSINRANDOMORDER
+                i = rand()%numbms;
+            #endif
             if (!strstr(bms[i].url, query) || bms[i].count == 0) continue;
             printf("Opening matching url %s...\n", bms[i].url);
             sprintf(command, "%s -P %s %s", browser, profile, bms[i].url);
