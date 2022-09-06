@@ -1,10 +1,12 @@
 #pragma once
 #include <stdio.h>
+#include <stdbool.h>
 
 struct bm {
     char *url;
     size_t urllen;
     char count;
+    bool visitedthissession;
 };
 
 /* traverses file until first encountered `"', building a string (allocates) */

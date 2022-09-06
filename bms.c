@@ -48,6 +48,7 @@ size_t get_bms(const char *filename, struct bm **bms) {
                 (*bms)[numbms-1].urllen = extract_url(fp, &s);
                 (*bms)[numbms-1].url = s;
                 (*bms)[numbms-1].count = 1;
+                (*bms)[numbms-1].visitedthissession = false;
                 //printf("adding url:%s which is of length %lu\n", (*bms)[numbms].url, (*bms)[numbms].urllen);
                 i = 0;
             }
@@ -64,7 +65,7 @@ size_t get_bms(const char *filename, struct bm **bms) {
 void print_bms(struct bm *bms, size_t numbms) {
     printf("{\n");
     for (size_t i = 0; i < numbms; ++i) {
-        printf("url:%s, count:%d\n", bms[i].url, bms[i].count);
+        printf("url:%s, count:%d (visitedthissession:%d)\n", bms[i].url, bms[i].count, bms[i].visitedthissession);
     }
     printf("}\n");
 }
@@ -143,6 +144,7 @@ size_t read_bms(const char *filename, struct bm **bms) {
                 tmp[i++] = '\0';
 
                 (*bms)[numbms].count = atoi(tmp);
+                (*bms)[numbms].visitedthissession = false;
 
                 i = 0;
                 ++numbms;

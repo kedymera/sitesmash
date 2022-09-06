@@ -29,10 +29,13 @@ int main() {
             #ifdef LINKSINRANDOMORDER
                 i = rand()%numbms;
             #endif
-            if (!strstr(bms[i].url, query) || bms[i].count == 0) continue;
+            if (!strstr(bms[i].url, query) || bms[i].count == 0 || bms[i].visitedthissession) continue;
+
             printf("Opening matching url %s...\n", bms[i].url);
             sprintf(command, "%s -P %s %s", browser, profile, bms[i].url);
             system(command);
+            bms[i].visitedthissession = true;
+
             while (1) {
                 printf("Action: ");
                 scanf("%c", &action);
