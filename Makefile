@@ -1,6 +1,6 @@
 SHELL=bash
 CC=gcc
-FLAGS=-Wall -Wextra -g -fsanitize=address
+FLAGS=-Wall -Wextra -pedantic -g -fsanitize=address
 LINKFLAGS=
 
 all: build/bms.o convert consume test
