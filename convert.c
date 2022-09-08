@@ -37,7 +37,7 @@ int main() {
     printf("Resolve duplicates\n");
     numbms = resolve_duplicate_bms(&bms, numbms);
 
-    printf("Writing  array of %lu bms to file %s\n", numbms, bmsfile);
+    printf("Writing array of %lu bms to file %s\n", numbms, bmsfile);
     write_bms(bms, numbms, bmsfile);
     free_bms(bms, numbms);
 
