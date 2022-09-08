@@ -1,8 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
 #include "bms.h"
 
-int main() {
+unsigned char parse_def_count(char *arg) {
+    char *end;
+    errno = 0;
+    long x = strtol(arg, &end, 10);
+    if (errno != 0 || arg == end) {
+        fprintf(stderr, "couldn't parse %s; default to 1\n", arg);
+        return 1;
+    }
+    if (x < 0) return 0;
+    if (x > 255) return 255;
+    return x;
+}
+
+int main(int argc, char *argv[]) {
+    unsigned char def_count = argc > 1 ? parse_def_count(argv[1]) : 1;
+
     struct bm *bms = NULL, *newbms = NULL;
     size_t numbms, numnewbms;
     const char *bmsfile = "out/links", *newbmsfile = "bookmarks.html";
@@ -15,7 +31,7 @@ int main() {
     printf("%lu bms extracted\n", numbms);
 
     printf("Reading bookmarks from file %s\n", newbmsfile);
-    numnewbms = get_bms(newbmsfile, &newbms);
+    numnewbms = get_bms(newbmsfile, &newbms, def_count);
     printf("%lu bms extracted\n", numnewbms);
     if (numnewbms) {
         printf("Trimming protocols from new bookmarks\n");

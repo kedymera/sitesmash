@@ -6,7 +6,7 @@ int main() {
 
     char *filename = "bookmarks.html";
     printf("reading bookmarks from file %s\n", filename);
-    size_t numbms = get_bms(filename, &bms);
+    size_t numbms = get_bms(filename, &bms, 1);
     printf("%lu bms extracted from file\n", numbms);
 
     printf("trimming protocols from bookmarks\n");

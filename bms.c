@@ -22,7 +22,7 @@ size_t extract_url(FILE *fp, char **s) {
     return len;
 }
 
-size_t get_bms(const char *filename, struct bm **bms) {
+size_t get_bms(const char *filename, struct bm **bms, unsigned char def_count) {
     char c;
     const char *pre = "<A HREF=\"";
     const size_t prelen = 9;
@@ -47,7 +47,7 @@ size_t get_bms(const char *filename, struct bm **bms) {
                 char *s = NULL;
                 (*bms)[numbms-1].urllen = extract_url(fp, &s);
                 (*bms)[numbms-1].url = s;
-                (*bms)[numbms-1].count = 1;
+                (*bms)[numbms-1].count = def_count;
                 (*bms)[numbms-1].visitedthissession = false;
                 //printf("adding url:%s which is of length %lu\n", (*bms)[numbms].url, (*bms)[numbms].urllen);
                 i = 0;

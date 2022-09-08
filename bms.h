@@ -5,7 +5,7 @@
 struct bm {
     char *url;
     size_t urllen;
-    char count;
+    unsigned char count;
     bool visitedthissession;
 };
 
@@ -13,7 +13,7 @@ struct bm {
 size_t extract_url(FILE *fp, char **s);
 
 /* parses file `filename' for all links and creates an array of bms therefrom (allocates) */
-size_t get_bms(const char *filename, struct bm **bms);
+size_t get_bms(const char *filename, struct bm **bms, unsigned char def_count);
 
 /* print an array of bms (probably for debugging) */
 void print_bms(struct bm *bms, size_t numbms);
